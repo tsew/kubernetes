@@ -1,0 +1,6 @@
+---
+- name: Generate /etc/hosts file
+  blockinfile:
+    content: "{{ lookup('template', 'hosts.j2') }}"
+    dest: /etc/hosts
+    state: present

@@ -1,0 +1,27 @@
+---
+- name: Install flannel
+  dnf:
+    name: flannel
+    state: present
+
+- name: Copy flannel configuration to filesystem
+  copy:
+    src: flannel-config.json
+    dest: /tmp/flannel-config.json
+
+- name: Copy flanneld to sysconfig
+  template:
+    src: flanneld.j2
+    dest: /etc/sysconfig/flanneld
+
+- name: Copy flannel systemd configuration
+  copy:
+    src: flanneld.service
+    dest: /usr/lib/systemd/system/flanneld.service
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+
+- name: Set flannel configuration
+  shell: etcdctl set /coreos.com/network/config < /tmp/flannel-config.json

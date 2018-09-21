@@ -1,0 +1,3 @@
+{{ ansible_managed }}
+KUBE_MASTER="--master=http://{{ play_hosts | map('regex_search', '.*.master.*') | select ('string') | first }}:8080"
+

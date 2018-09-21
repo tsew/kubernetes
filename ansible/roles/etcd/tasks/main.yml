@@ -1,0 +1,5 @@
+---
+- name: Install etcd
+  dnf:
+    name: etcd
+    state: present

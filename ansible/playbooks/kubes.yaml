@@ -1,0 +1,26 @@
+---
+- hosts: kubes
+  roles:
+    - update
+    - selinux
+    - firewall
+    - docker
+    - hostname
+    - kubernetes
+    - admission
+    - etcd
+    - hosts
+    - swapoff
+
+- hosts: k8s
+  roles:
+    - kubemaster
+
+- hosts: kube
+  roles:
+    - kubenode-only
+
+- hosts: kubes
+  roles:
+    - flannel
+    - kubenode

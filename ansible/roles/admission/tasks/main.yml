@@ -1,0 +1,6 @@
+---
+- name: Set Admission Control
+  lineinfile:
+    path: /etc/kubernetes/apiserver
+    regexp: '^KUBE_ADMISSION_CONTROL'
+    line: 'KUBE_ADMISSION_CONTROL="--admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ResourceQuota"'

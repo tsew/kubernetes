@@ -1,0 +1,20 @@
+---
+- name: Yum update
+  dnf:
+    name: '*'
+    state: latest
+
+- name: Install packages
+  dnf:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - wget
+    - unzip
+    - python2-pip
+    - open-vm-tools
+
+- name: Install docker-py via pip
+  pip:
+    name: docker-py
+    state: present

@@ -1,0 +1,5 @@
+---
+- name: Install Docker from Fedora repo
+  dnf:
+    name: docker
+    state: present

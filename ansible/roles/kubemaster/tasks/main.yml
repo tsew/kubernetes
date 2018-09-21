@@ -1,0 +1,41 @@
+---
+- name: Set API address
+  lineinfile:
+    path: /etc/kubernetes/apiserver
+    regexp: '^KUBE_API_ADDRESS'
+    line: 'KUBE_API_ADDRESS="--address=0.0.0.0"'
+
+- name: Set Kubelet Hostname - use machine hostname
+  lineinfile:
+    path: /etc/kubernetes/kubelet
+    regexp: '^KUBELET_HOSTNAME'
+    line: 'KUBELET_HOSTNAME=""'
+
+- name: Set ETCD servers
+  lineinfile:
+    path: /etc/kubernetes/apiserver
+    regexp: '^KUBE_ETCD_SERVERS'
+    line: 'KUBE_ETCD_SERVERS="--etcd-servers=http://127.0.0.1:2379"'
+    
+- name: Set ETCD listen
+  lineinfile:
+    path: /etc/etcd/etcd.conf
+    regexp: '^ETCD_LISTEN_CLIENT_URLS'
+    line: 'ETCD_LISTEN_CLIENT_URLS="http://0.0.0.0:2379"'
+
+- name: Set ETCD advertise
+  lineinfile:
+    path: /etc/etcd/etcd.conf
+    regexp: '^ETCD_ADVERTISE_CLIENT_URLS'
+    line: 'ETCD_ADVERTISE_CLIENT_URLS="http://0.0.0.0:2379"'
+    
+- name: Enable master services
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items:
+    - etcd
+    - kube-apiserver
+    - kube-controller-manager
+    - kube-scheduler
